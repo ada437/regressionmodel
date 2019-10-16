@@ -36,7 +36,7 @@ app.layout = html.Div([
         
     html.Div([   
     html.Label('Paper 1'),
-    dcc.Slider(id='paper1-slider',
+    dcc.Slider(id='Paper1-slider',
             min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
@@ -49,7 +49,7 @@ app.layout = html.Div([
 
 html.Br(),
 html.Label('Paper 2'),
-dcc.Slider(id='paper2-slider',
+dcc.Slider(id='Paper2-slider',
             min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
@@ -62,7 +62,7 @@ dcc.Slider(id='paper2-slider',
 
 html.Br(),
 html.Label('Paper 3'),
-dcc.Slider(id='paper3-slider',
+dcc.Slider(id='Paper3-slider',
             min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
@@ -75,7 +75,7 @@ dcc.Slider(id='paper3-slider',
 
 html.Br(),
 html.Label('Paper 4'),
-dcc.Slider(id='paper4-slider',
+dcc.Slider(id='Paper4-slider',
             min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
@@ -88,7 +88,7 @@ dcc.Slider(id='paper4-slider',
 
 html.Br(),
 html.Label('Paper 5'),
-dcc.Slider(id='paper5-slider',
+dcc.Slider(id='Paper5-slider',
             min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
@@ -101,7 +101,7 @@ dcc.Slider(id='paper5-slider',
 
 html.Br(),
 html.Label('Paper 6'),
-dcc.Slider(id='paper6-slider',
+dcc.Slider(id='Paper6-slider',
             min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
