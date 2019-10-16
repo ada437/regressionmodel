@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import dash
 import dash_core_components as dcc
 import dash_daq as daq
@@ -9,9 +10,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("Admission_Values.csv")
-X = df[df.columns.difference(['Chance of Admit ', 'Serial No.'])]
-Y=df['Chance of Admit ']
+df = pd.read_csv("revisedstudentdata.csv")
+df=df.fillna(69)
+X = df[df.columns.difference(['Paper7', 'Semster_Name', 'Student_ID','Unnamed: 0'])]
+Y=df['Paper7']
 
 from sklearn.model_selection import train_test_split 
 from sklearn.linear_model import LinearRegression
@@ -30,98 +32,86 @@ server=app.server
 
 app.layout = html.Div([
         
-    html.H1('Master Program Acceptance Predictor'),
+    html.H1('Grade Predictor'),
         
     html.Div([   
-    html.Label('GRE Score'),
-    dcc.Slider(id='gre-slider',
-            min=0, max=340, step=1, value=170,
+    html.Label('Paper 1'),
+    dcc.Slider(id='paper1-slider',
+            min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
+            25: {'label': '25'},
+        50: {'label': '50'},
+        75: {'label': '75'},
         100: {'label': '100'},
-        200: {'label': '200'},
-        300: {'label': '300'},
-        340: {'label': '340'}                                
+                                     
     }),
 
 html.Br(),
-html.Label('TOEFL Score'),
-dcc.Slider(id='toefl-slider',
-            min=0, max=120, step=1, value=60,
+html.Label('Paper 2'),
+dcc.Slider(id='paper2-slider',
+            min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
         25: {'label': '25'},
         50: {'label': '50'},
         75: {'label': '75'},
         100: {'label': '100'},
-        120: {'label': '120'}                                
+                                 
     }),
 
 html.Br(),
-html.Label('University Rating'),
-dcc.Slider(id='rating-slider',
-            min=0, max=5, step=1, value=3,
+html.Label('Paper 3'),
+dcc.Slider(id='paper3-slider',
+            min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
-        1: {'label': '1'},
-        2: {'label': '2'},
-        3: {'label': '3'},
-        4: {'label': '4'},
-        5: {'label': '5'},
+        25: {'label': '25'},
+        50: {'label': '50'},
+        75: {'label': '75'},
+        100: {'label': '100'},
                                 
     }),
 
 html.Br(),
-html.Label('Statement of Purpose'),
-dcc.Slider(id='sop-slider',
-            min=0, max=5, step=1, value=3,
+html.Label('Paper 4'),
+dcc.Slider(id='paper4-slider',
+            min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
-        1: {'label': '1'},
-        2: {'label': '2'},
-        3: {'label': '3'},
-        4: {'label': '4'},
-        5: {'label': '5'},
+        25: {'label': '25'},
+        50: {'label': '50'},
+        75: {'label': '75'},
+        100: {'label': '100'},
                                 
     }),
 
 html.Br(),
-html.Label('Letter of Recommendation'),
-dcc.Slider(id='lor-slider',
-            min=0, max=5, step=1, value=3,
+html.Label('Paper 5'),
+dcc.Slider(id='paper5-slider',
+            min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
-        1: {'label': '1'},
-        2: {'label': '2'},
-        3: {'label': '3'},
-        4: {'label': '4'},
-        5: {'label': '5'},
+        25: {'label': '25'},
+        50: {'label': '50'},
+        75: {'label': '75'},
+        100: {'label': '100'},
                                 
     }),
 
 html.Br(),
-html.Label('College GPA'),
-dcc.Slider(id='gpa-slider',
-            min=0, max=10, step=1, value=5,
+html.Label('Paper 6'),
+dcc.Slider(id='paper6-slider',
+            min=0, max=100, step=1, value=50,
                marks={
         0: {'label': '0'},
-        2: {'label': '2'},
-        4: {'label': '4'},
-        6: {'label': '6'},
-        8: {'label': '8'},
-        10: {'label': '10'},
+        25: {'label': '25'},
+        50: {'label': '50'},
+        75: {'label': '75'},
+        100: {'label': '100'},
                                 
     }),
-
-html.Br(),
-html.Label('Research Experience'),
-dcc.Slider(id='research-slider',
-            min=0, max=1, step=1, value=0,
-               marks={
-        0: {'label': '0'},
-        1: {'label': '1'},
-                                
-    }),
+            
 ],className="pretty_container four columns"),
 
   html.Div([ 
@@ -129,9 +119,9 @@ dcc.Slider(id='research-slider',
     daq.Gauge(
         id='my-gauge',
         showCurrentValue=True,
-        color={"gradient":True,"ranges":{"red":[0,0.4],"yellow":[0.4,0.7],"green":[0.7,1]}},
-        label="Probability",
-        max=1,
+        color={"gradient":True,"ranges":{"red":[0,30],"yellow":[30,60],"green":[60,100]}},
+        label="Test Score",
+        max=100,
         min=0,
         value=1
     ),
@@ -141,22 +131,20 @@ dcc.Slider(id='research-slider',
 
 @app.callback(
     Output('my-gauge', 'value'),
-    [Input('gre-slider', 'value'),
-     Input('toefl-slider', 'value'),
-     Input('rating-slider', 'value'),
-     Input('sop-slider', 'value'),
-     Input('lor-slider', 'value'),
-     Input('gpa-slider', 'value'),
-     Input('research-slider', 'value')
+    [Input('Paper1-slider', 'value'),
+     Input('Paper2-slider', 'value'),
+     Input('Paper3-slider', 'value'),
+     Input('Paper4-slider', 'value'),
+     Input('Paper5-slider', 'value'),
+     Input('Paper6-slider', 'value')
      ])
-def update_output_div(gre,
-                      toefl,
-                      rating,
-                      sop,
-                      lor,
-                      gpa,
-                      research):
-   X_case =pd.DataFrame({'CGPA':[gpa],'GRE Score':[gre],'LOR':[lor],'Research':[research],'SOP':[sop],'TOEFL Score':[toefl],'University Rating':[rating]})
+def update_output_div(Paper1,
+                      Paper2,
+                      Paper3,
+                      Paper4,
+                      Paper5,
+                      Paper6):
+   X_case =pd.DataFrame({'Paper 1':[Paper1],'Paper 2':[Paper2],'Paper 3':[Paper3],'Paper 4':[Paper4],'Paper 5':[Paper5],'Paper 6':[Paper6]})
    Y_case = regressor.predict(X_case)
 
    return Y_case[0]
